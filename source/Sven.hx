@@ -30,8 +30,8 @@ class Sven extends FlxSprite {
 	public var emitter : FlxEmitter;
 	private var fire : FlxParticle;
 
-	private var sfxHit:FlxSound;
-
+	private var sfxSpit : FlxSound;
+	private var spitCount : Int = 0; 
 
 	public function new(x:Float = 0, y:Float=0)
 	{ 
@@ -56,16 +56,21 @@ class Sven extends FlxSprite {
 		emitter.start(false, 3.5, 0.1);
 		emitter.on = false;
 		
-		sfxHit = FlxG.sound.load("assets/sounds/hit.wav"); 
+		sfxSpit = FlxG.sound.load("assets/sounds/spit.wav"); 
 	}
 
 	override public function update():Void 
 	{
 		super.update();
 
-		
-
-		if (waitToFireCount < 90 && gnashOn == false) {
+		if (emitter.on) {
+			if (spitCount == 0) {
+				sfxSpit.play(true); 
+				spitCount = 5; 
+			}
+			spitCount--; 
+		}
+		if (waitToFireCount < 120 && gnashOn == false) {
 			waitToFireCount++;
 		} else {
 			gnashOn = true;
@@ -127,8 +132,7 @@ class Sven extends FlxSprite {
 		this.color = this.shot ? FlxColor.RED : FlxColor.WHITE;
 		this.jaw.color = this.shot ? FlxColor.RED : FlxColor.WHITE;
 		if (this.shot == true) {
-			sfxHit.stop(); 
-			sfxHit.play();
+
 			// this.scale.set(this.scale.x+0.01,this.scale.y+0.01);
 			// this.updateHitbox();
 			// this.offset.set(0,0); 

@@ -38,6 +38,7 @@ class Player extends FlxSprite {
 		bulletArray = new FlxTypedGroup<Bullet>();
 
 		sfxBullet = FlxG.sound.load("assets/sounds/shoot.wav"); 
+		FlxG.sound.playMusic("assets/sounds/engine.wav", 1, true);
 	}
 
 	override public function update():Void { 

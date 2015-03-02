@@ -6,6 +6,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
@@ -27,6 +28,11 @@ class PlayState extends FlxState
 	private var emitter : FlxEmitter;
 	private var whitePixel : FlxParticle;
 	private var mines = new FlxTypedGroup<Mine>(20);
+	private var asplodes = new FlxTypedGroup<FlxSprite>();
+
+	private var sfxHit:FlxSound;
+	private var sfxHit2:FlxSound;
+
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -68,6 +74,11 @@ class PlayState extends FlxState
 		add(sven.jaw);
 		add(sven.emitter);
 
+		add(asplodes);
+
+		sfxHit = FlxG.sound.load("assets/sounds/hit.wav"); 
+		sfxHit2 = FlxG.sound.load("assets/sounds/hit2.wav"); 
+
 		//FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN, 1); 
 
 		super.create();
@@ -90,12 +101,29 @@ class PlayState extends FlxState
 		for (b in _player.bulletArray) { 
 			if (FlxG.pixelPerfectOverlap(b, sven) || FlxG.pixelPerfectOverlap(b, sven.jaw)) {
 				sven.shot = true; 
+				sfxHit.stop(); 
+				sfxHit.play();
+				var splode = new FlxSprite(b.x, b.y);
+				splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
+				splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
+				splode.animation.play("boom");
+				asplodes.add(splode);
+
 				_player.bulletArray.remove(b);
+
 				b.destroy;
+				
+				
 			}
 			if (b.x > FlxG.width) {
 				_player.bulletArray.remove(b);
 				b.destroy;
+			}
+		}
+
+		for (splode in asplodes) {
+			if (splode.animation.frameIndex == 9) {
+				asplodes.remove(splode);
 			}
 		}
 
@@ -136,8 +164,16 @@ class PlayState extends FlxState
 	private function particlesShot(b:Bullet, p:FlxParticle):Void
 	{
 		if (p.alive && p.exists && b.alive && b.exists) {
+			var splode = new FlxSprite(b.x, b.y);
+			splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
+			splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
+			splode.animation.play("boom");
+			asplodes.add(splode);
+			sfxHit2.stop(); 
+			sfxHit2.play();
 			p.kill(); 
 			b.kill(); 
+
 		}
 	}
 
@@ -151,6 +187,13 @@ class PlayState extends FlxState
 	private function mineShot(b:Bullet, m:Mine):Void 
 	{
 		if (b.alive && b.exists && m.alive && m.exists) { 
+			var splode = new FlxSprite(b.x, b.y);
+			splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
+			splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
+			splode.animation.play("boom");
+			asplodes.add(splode);
+			sfxHit2.stop(); 
+			sfxHit2.play();
 			m.kill();
 			b.kill(); 
 		}
