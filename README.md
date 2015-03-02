@@ -20,3 +20,7 @@ We won't be going too advanced compared to some of the previous game design dork
 [Sublime Text Haxe bundle](https://github.com/clemos/haxe-sublime-bundle/tree/refactoring)
 
 [API reference](http://api.haxeflixel.com/)
+
+[Demos](http://haxeflixel.com/demos/)
+
+[Adam Saltzman, creator of Flixel](adamatomic.com/)
