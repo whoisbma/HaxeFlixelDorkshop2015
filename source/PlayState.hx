@@ -103,7 +103,7 @@ class PlayState extends FlxState
 				sven.shot = true; 
 				sfxHit.stop(); 
 				sfxHit.play();
-				var splode = new FlxSprite(b.x, b.y);
+				var splode = new FlxSprite(b.x-15, b.y-15);
 				splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
 				splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
 				splode.animation.play("boom");
@@ -164,7 +164,7 @@ class PlayState extends FlxState
 	private function particlesShot(b:Bullet, p:FlxParticle):Void
 	{
 		if (p.alive && p.exists && b.alive && b.exists) {
-			var splode = new FlxSprite(b.x, b.y);
+			var splode = new FlxSprite(b.x-15, b.y-15);
 			splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
 			splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
 			splode.animation.play("boom");
@@ -187,7 +187,7 @@ class PlayState extends FlxState
 	private function mineShot(b:Bullet, m:Mine):Void 
 	{
 		if (b.alive && b.exists && m.alive && m.exists) { 
-			var splode = new FlxSprite(b.x, b.y);
+			var splode = new FlxSprite(b.x-15, b.y-15);
 			splode.loadGraphic("assets/images/asplode.png", true, 32, 32);  
 			splode.animation.add("boom", [0,1,2,3,4,5,6,7,8,9], 24, false); 
 			splode.animation.play("boom");
